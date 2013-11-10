@@ -165,7 +165,8 @@
   // Set the text color
   .control-label,
   .help-block,
-  .help-inline {
+  .help-inline,
+  .field-validation-error {
     color: @textColor;
   }
   // Style inputs accordingly
@@ -511,16 +512,17 @@
 // Button backgrounds
 // ------------------
 .buttonBackground(@startColor, @endColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
-  // gradientBar will set the background to a pleasing blend of these, to support IE<=9
-  .gradientBar(@startColor, @endColor, @textColor, @textShadow);
-  *background-color: @endColor; /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+    color: @textColor;
+    border-color: @endColor @endColor darken(@endColor, 15%);
+    border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
+    *background-color: @startColor; /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   .reset-filter();
 
   // in these cases the gradient won't cover the background, so we override
   &:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
     color: @textColor;
-    background-color: @endColor;
-    *background-color: darken(@endColor, 5%);
+    background-color: @startColor;
+    *background-color: darken(@startColor, 5%);
   }
 
   // IE 7 + 8 can't handle box-shadow to show active, so we darken a bit ourselves
