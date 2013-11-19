@@ -77,16 +77,18 @@ input[type="url"],
 input[type="search"],
 input[type="tel"],
 input[type="color"],
-.uneditable-input {
+.uneditable-input,
+.btn-block-submit {
   display: inline-block;
   height: @baseLineHeight;
-  padding: 4px 6px;
-  margin-bottom: @baseLineHeight / 2;
+  padding: 0px 6px;
+  margin-bottom: 0;
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
   font-size: @fontSizeLarge;
-  color: @gray;
+  color: @grayMedium;
   vertical-align: middle;
+  width: @inputWidth - (@inputPadding * 2);
 }
 
 // Reset appearance properties for textual inputs and textarea
@@ -96,6 +98,12 @@ textarea,
 .uneditable-input {
   width: 350px; // plus 12px padding and 2px border
 }
+
+// Fix width for buttons
+.btn-block-submit {
+  width: @inputWidth + 2; // plus  2px border
+}
+
 // Reset height since textareas have rows
 textarea {
   height: auto;
@@ -161,9 +169,10 @@ input[type="file"] {
 
 // Make select elements obey height by applying a border
 select {
-  width: 364px; // default input width + 10px of padding that doesn't get applied
+  width: @inputWidth; // default input width + 10px of padding that doesn't get applied
   border: 1px solid @inputBorder;
   background-color: @inputBackground; // Chrome on Linux and Mobile Safari need background-color
+  padding-right: 0;
 }
 
 option {
@@ -600,6 +609,13 @@ input.search-query {
     margin-bottom: 0;
     vertical-align: middle;
   }
+
+  .field-validation-error {
+      display: block;
+      clear: both;
+      padding: 0;
+      margin: 0 0 10px 200px;
+  }
   // Re-hide hidden elements due to specifity
   .hide {
     display: none;
@@ -654,20 +670,24 @@ legend + .control-group {
 
 .form-horizontal {
   // Increase spacing between groups
+  width: 860px;
+  padding: 0px 0px 20px 0;
+  margin: 20px auto 150px;
+
   .control-group {
-    margin-bottom: @baseLineHeight;
+    margin-bottom: @baseLineHeight / 2;
     .clearfix();
   }
   // Float the labels left
   .control-label {
     float: left;
-    width: @horizontalComponentOffset - 20;
-    padding-top: 5px;
+    width: 200px;
     text-align: left;
     height: @baseLineHeight;
     line-height: @baseLineHeight;
     font-size: @fontSizeLarge;
     text-transform: uppercase;
+    color: @grayMedium;
   }
   // Move over all input controls and content
   .controls {
@@ -700,4 +720,168 @@ legend + .control-group {
   .form-actions {
     padding-left: @horizontalComponentOffset;
   }
+
+    textarea {
+        display: block;
+        font-size: 20px;
+        height: 200px;
+        max-height: 100px;
+    }
+
+    button {
+        padding: 0 20px;
+        min-width: 140px;
+        text-align: center;
+        background: #d9d6d6;
+        border: 1px solid #bebebe;
+        font-size: 20px;
+    }
+
+    .caption {
+        background: #cae7fd;
+        text-align: center;
+        font-size: 35px; 
+        font-weight: 500;
+        color: #FFFFFF;
+        height: 70px; 
+        line-height: 70px;
+    }
+}
+
+.select {
+    line-height: @baseLineHeight;
+    font-size: @fontSizeLarge;
+    display: inline-block;
+
+    * {
+        -webkit-user-select: none;
+        -moz-user-select: -moz-none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+    }
+
+    dl {
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        outline: none;
+
+        &:focus {
+            outline: none;
+        }
+
+        .dropdown-arrow {
+            border: 7px solid transparent;
+            border-bottom: none;
+            border-top-color: #999999;
+            height: 0;
+            line-height: 0;
+            width:0;
+            cursor: pointer;
+            padding: 0;
+            background: none;
+            float: right;
+        }
+    }
+
+    dd, dt, ul {
+        margin: 0;
+        padding: 0;
+        outline: none;
+    }
+
+    dd {
+        position: relative;
+        z-index: 999999;
+
+        ul {
+            max-height: 500px;
+            overflow-y: auto;
+            width: auto;
+            max-width: 400px;
+            background: #FFFFFF;
+            top: 0;
+            left: -1px;
+            border: 1px solid #CCCCCC;
+            border-top-color: transparent;
+            color: #333333;
+            display: none;
+            padding: 0;
+            position: absolute;
+            width: auto;
+            list-style: none;
+
+            &:focus {
+                outline: none;
+                border: none;
+            }
+
+            li {
+                cursor: pointer;
+                max-height: 38px;
+                overflow: hidden;
+
+                &:hover {
+                    background: #e6f2f4;
+                }
+
+                span {
+                    padding-left: 3px;
+                    display: block;
+                }
+            }
+        }
+    }
+
+    span {
+        color: #333333;
+        text-decoration: none;
+        outline: none;
+
+        &.value {
+            display: none;
+        }
+
+        &:hover {
+            color: #333333;
+        }
+    }
+
+    dt {
+        height: 38px;
+        line-height: 38px;
+        overflow: hidden;
+
+        > span {
+            display: block;
+            padding: 0px 5px;
+            line-height: @baseLineHeight;
+            background: url(../images/arrow-select-blue.png) no-repeat right center transparent;
+            max-height: 38px;
+            overflow: hidden;
+            z-index: 1;
+            &:hover {
+                color: #5d4617;
+            }
+        }
+
+    }
+
+    .selected {
+        font-weight: bold;
+    }
+
+    >div {
+        background: #FFFFFF;
+        height: 38px;
+        float: left;
+        border: 1px solid #CCCCCC; 
+
+        &.expanded {
+            background: #e6f2f4;
+            border-bottom-color: transparent;
+        }
+    }
 }
